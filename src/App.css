@@ -84,3 +84,9 @@ form {
 #descripcion {
   flex-grow: 1;
 }
+
+.imageList {
+  height: 50px;
+  width: 50px;
+  object-fit: scale-down;
+}

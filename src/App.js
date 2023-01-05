@@ -6,16 +6,18 @@ function App() {
     evt.preventDefault()
     if(newRegalo!==''){
       if(!regalos.some((element)=>{return element.desc===newRegalo}))
-      setRegalos([...regalos, {desc:newRegalo, Qty:newQty}])
+      setRegalos([...regalos, {desc:newRegalo, Qty:newQty, Img:newImage}])
       setNewRegalo('')
       setNewQty(1)
+      setNewImage('')
     }
   }
   
   // Carga inicial de regalos desde localStorage cuando se inicia el componente
-  const [regalos, setRegalos] = useState(JSON.parse(localStorage.getItem('giftsList')) || [{desc:'Medias',Qty:1}, {desc:'Caramelos', Qty:1}, {desc:'Vittel Tone', Qty:1}])
+  const [regalos, setRegalos] = useState(JSON.parse(localStorage.getItem('giftsList')) || [{desc:'Medias',Qty:1, Img:''}, {desc:'Caramelos', Qty:1, Img:''}, {desc:'Vittel Tone', Qty:1, Img:''}])
   const [newRegalo, setNewRegalo] = useState('')
   const [newQty, setNewQty] = useState(1)
+  const [newImage, setNewImage] = useState('')
 
   const handleChange = (evt) => { setNewRegalo(evt.target.value) }
   const handleChangeQty = (evt) => { setNewQty(evt.target.value) }
@@ -23,6 +25,7 @@ function App() {
     const result = regalos.filter(regalo => regalo !== borrar)
     setRegalos(result)
   }
+  const handleImage = (evt) => { setNewImage(evt.target.value) }
 
   // Actualiza localStorage cuando cambia "regalos"
   useEffect(()=>{
@@ -37,6 +40,7 @@ function App() {
     <ul>
       {regalos.map(regalo => 
         <li key={regalo.desc}>
+          <img src={regalo.Img} className='imageList' alt={regalo.name}/>
           {regalo.desc} {regalo.Qty>1?"x"+regalo.Qty:""}
           <button onClick={() => handleDelete(regalo)}>
             <img alt="trash" src="//ssl.gstatic.com/ui/v1/icons/mail/gm3/1x/delete_baseline_nv700_20dp.png"/>
@@ -65,6 +69,7 @@ function App() {
         <p className="titulo">Regalos</p>
         <form onSubmit={handleSubmit}>
           <input id="descripcion" onChange={handleChange} value={newRegalo}/>
+          <input id="imagen" onChange={handleImage} value={newImage} />
           <input id="cantidad" onChange={handleChangeQty} value={newQty} type="number" min={1} size={3} />
           <button>Agregar</button>
         </form>
