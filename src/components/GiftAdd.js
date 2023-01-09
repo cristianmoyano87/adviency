@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
@@ -17,6 +17,13 @@ export function GiftAdd({show, handleClose, giftCollection, setGiftCollection}) 
     }
 
   }
+
+  useEffect(()=>{
+    setNewDesc('')
+    setNewImage('')
+    setNewQty(1)
+  },[])
+
 
   const handleDescChg = (evt) => { setNewDesc(evt.target.value) }
   const handleImageChg = (evt) => { setNewImage(evt.target.value)}
