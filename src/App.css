@@ -72,9 +72,15 @@ form {
   align-items: center;
 }
 
+.giftAdd {
+  width: 100%;
+  margin-top: 15px;;
+}
+
 .borrarTodo {
   width: 100%;
   margin-top: 15px;;
+  background-color: lightslategray;
 }
 
 #cantidad {

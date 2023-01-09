@@ -1,32 +1,20 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle";
+
 import './App.css';
 import { useEffect, useState } from 'react';
+import { GiftAdd } from './components/GiftAdd';
 
 function App() {
-  const handleSubmit = (evt) => {
-    evt.preventDefault()
-    if(newRegalo!==''){
-      if(!regalos.some((element)=>{return element.desc===newRegalo}))
-      setRegalos([...regalos, {desc:newRegalo, Qty:newQty, Img:newImage}])
-      setNewRegalo('')
-      setNewQty(1)
-      setNewImage('')
-    }
-  }
-  
+
   // Carga inicial de regalos desde localStorage cuando se inicia el componente
   const [regalos, setRegalos] = useState(JSON.parse(localStorage.getItem('giftsList')) || [{desc:'Medias',Qty:1, Img:''}, {desc:'Caramelos', Qty:1, Img:''}, {desc:'Vittel Tone', Qty:1, Img:''}])
-  const [newRegalo, setNewRegalo] = useState('')
-  const [newQty, setNewQty] = useState(1)
-  const [newImage, setNewImage] = useState('')
 
-  const handleChange = (evt) => { setNewRegalo(evt.target.value) }
-  const handleChangeQty = (evt) => { setNewQty(evt.target.value) }
   const handleDelete = (borrar) => {
     const result = regalos.filter(regalo => regalo !== borrar)
     setRegalos(result)
   }
-  const handleImage = (evt) => { setNewImage(evt.target.value) }
-
+  
   // Actualiza localStorage cuando cambia "regalos"
   useEffect(()=>{
     localStorage.setItem('giftsList', JSON.stringify(regalos))
@@ -62,20 +50,21 @@ function App() {
     setRegalos([])
   }
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <div className="App">
       <header className="App-header">
         <img className='fondo' src='cuento-arbol-navidad.jpg' alt='fondo'/>
         <p className="titulo">Regalos</p>
-        <form onSubmit={handleSubmit}>
-          <input id="descripcion" onChange={handleChange} value={newRegalo}/>
-          <input id="imagen" onChange={handleImage} value={newImage} />
-          <input id="cantidad" onChange={handleChangeQty} value={newQty} type="number" min={1} size={3} />
-          <button>Agregar</button>
-        </form>
-        {/* {regalos.map(regalo => <p>{regalo}<button onClick={() => handleDelete(regalo)}><img alt="recycle" src="//ssl.gstatic.com/ui/v1/icons/mail/gm3/1x/delete_baseline_nv700_20dp.png"/></button></p>)} */}
+        <button className="giftAdd" onClick={() => handleShow()}>
+          Agregar Regalo
+        </button>
         <ListaRegalos/>
         <BorrarLista/>
+        <GiftAdd show={show} handleClose={handleClose} giftCollection={regalos} setGiftCollection={setRegalos}/>
       </header>
     </div>
   );
