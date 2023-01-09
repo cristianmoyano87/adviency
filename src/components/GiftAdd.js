@@ -3,15 +3,16 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 export function GiftAdd({show, handleClose, giftCollection, setGiftCollection}) {
-  const [ newDesc, setNewDesc ] = useState('')
-  const [ newImage, setNewImage ] = useState('')
-  const [ newQty, setNewQty ] = useState(1)
+  const [newDesc, setNewDesc] = useState('')
+  const [newImage, setNewImage] = useState('')
+  const [newQty, setNewQty] = useState(1)
+  const [newOwner, setNewOwner] = useState('')
 
   const handleGiftAdd = (evt) => {
     evt.preventDefault()
     if(newDesc!==''){
       if(!giftCollection.some((element)=>{return element.desc===newDesc})){
-        setGiftCollection([...giftCollection, {desc:newDesc, Qty:newQty, Img:newImage}])
+        setGiftCollection([...giftCollection, {desc:newDesc, Qty:newQty, Img:newImage, Owner:newOwner}])
         handleClose()
       }
     }
@@ -22,12 +23,14 @@ export function GiftAdd({show, handleClose, giftCollection, setGiftCollection}) 
     setNewDesc('')
     setNewImage('')
     setNewQty(1)
+    setNewOwner('')
   },[])
 
 
   const handleDescChg = (evt) => { setNewDesc(evt.target.value) }
   const handleImageChg = (evt) => { setNewImage(evt.target.value)}
   const handleQtyChg = (evt) => { setNewQty(evt.target.value)}
+  const handleOwnerChg = (evt) => { setNewOwner(evt.target.value)}
 
   return (
     <>
@@ -46,6 +49,17 @@ export function GiftAdd({show, handleClose, giftCollection, setGiftCollection}) 
                                 className='form-control' 
                                 onChange={handleDescChg} 
                                 value={newDesc}
+                            />
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='form-group'>
+                            <label htmlFor="modalOwner">Destinatario</label>
+                            <input 
+                                id="modalOwner" 
+                                className='form-control' 
+                                onChange={handleOwnerChg} 
+                                value={newOwner}
                             />
                         </div>
                     </div>

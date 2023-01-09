@@ -96,3 +96,18 @@ form {
   width: 50px;
   object-fit: scale-down;
 }
+
+.giftRow {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.giftItem {
+  display: flex;
+}
+
+.listOwner {
+  font-size: smaller;
+  font-weight: lighter;
+}
