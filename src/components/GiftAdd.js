@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-export function GiftAdd({show, handleClose, giftCollection, setGiftCollection}) {
+export function GiftAdd({show, handleClose, giftCollection, setGiftCollection, action}) {
   const [newDesc, setNewDesc] = useState('')
   const [newImage, setNewImage] = useState('')
   const [newQty, setNewQty] = useState(1)
@@ -10,21 +10,43 @@ export function GiftAdd({show, handleClose, giftCollection, setGiftCollection}) 
 
   const handleGiftAdd = (evt) => {
     evt.preventDefault()
+    console.log("guardar")
+    const searchGift = (item) => item.desc === action.editData.desc
     if(newDesc!==''){
-      if(!giftCollection.some((element)=>{return element.desc===newDesc})){
-        setGiftCollection([...giftCollection, {desc:newDesc, Qty:newQty, Img:newImage, Owner:newOwner}])
-        handleClose()
+      const newItem = {desc:newDesc, Qty:newQty, Img:newImage, Owner:newOwner}
+      if (action.action==='add') {
+        if(!giftCollection.some((element)=>{return element.desc===newDesc})){
+          setGiftCollection([...giftCollection, newItem])
+          handleClose()
+        }
+      }
+      if (action.action==='edit') {
+        if(!giftCollection.some((element)=>{return element.desc===newDesc}) || newDesc === action.editData.desc){
+          const position = giftCollection.findIndex(searchGift)
+          // setGiftCollection([...giftCollection].splice(position,1,newItem))
+          const newGiftCollection = [...giftCollection]
+          newGiftCollection.splice(position,1,newItem) // OJO no se puede asignar porque devuelve arreglo de eliminados
+          setGiftCollection(newGiftCollection)
+          handleClose()
+        }
       }
     }
-
   }
 
   useEffect(()=>{
-    setNewDesc('')
-    setNewImage('')
-    setNewQty(1)
-    setNewOwner('')
-  },[])
+    if (action.action==='add' || action.action === undefined) {
+      setNewDesc('')
+      setNewImage('')
+      setNewQty(1)
+      setNewOwner('')
+    } 
+    if (action.action==='edit') {
+      setNewDesc(action.editData.desc)
+      setNewImage(action.editData.Img)
+      setNewQty(action.editData.Qty)
+      setNewOwner(action.editData.Owner || '')
+    }
+  },[action])
 
 
   const handleDescChg = (evt) => { setNewDesc(evt.target.value) }
@@ -36,7 +58,7 @@ export function GiftAdd({show, handleClose, giftCollection, setGiftCollection}) 
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Nuevo regalo</Modal.Title>
+          <Modal.Title>{action.action==='edit'?'Editando ' + action.editData.desc:'Nuevo regalo'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <form onSubmit={handleGiftAdd}>

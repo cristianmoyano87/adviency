@@ -115,3 +115,8 @@ form {
   font-size: smaller;
   font-weight: lighter;
 }
+
+.giftAction{
+  display: flex;
+  column-gap: 5px;
+}

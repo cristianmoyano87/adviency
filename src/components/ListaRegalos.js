@@ -1,4 +1,4 @@
-export const ListaRegalos = ({regalos, handleDelete}) => {
+export const ListaRegalos = ({regalos, handleDelete, handleEdit}) => {
     if(regalos.length===0) {
       return <h3>No hay regalos, suma uno</h3>
     }
@@ -18,9 +18,14 @@ export const ListaRegalos = ({regalos, handleDelete}) => {
                     </div>
                 </div>
             </div>
-            <button onClick={() => handleDelete(regalo)}>
-                <img alt="trash" src="//ssl.gstatic.com/ui/v1/icons/mail/gm3/1x/delete_baseline_nv700_20dp.png"/>
-            </button>
+            <div className="giftAction">
+                <button onClick={() => handleEdit(regalo)}>
+                    <img alt="edit" src="edit24alfa.png"/>
+                </button>
+                <button onClick={() => handleDelete(regalo)}>
+                    <img alt="trash" src="//ssl.gstatic.com/ui/v1/icons/mail/gm3/1x/delete_baseline_nv700_20dp.png"/>
+                </button>
+            </div>
           </div>
         </li>
       )}    
