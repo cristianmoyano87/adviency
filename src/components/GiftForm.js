@@ -1,32 +1,42 @@
 import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import InputGroup from 'react-bootstrap/InputGroup'
+import { giftPropose, giftPutItem, giftPostItem } from '../services/apiGifts';
 
-export function GiftAdd({show, handleClose, giftCollection, setGiftCollection, action}) {
+export function GiftForm({show, handleClose, giftCollection, setGiftCollection, action}) {
   const [newDesc, setNewDesc] = useState('')
   const [newImage, setNewImage] = useState('')
   const [newQty, setNewQty] = useState(1)
   const [newOwner, setNewOwner] = useState('')
 
-  const handleGiftAdd = (evt) => {
+  const handleGiftProposal = () => {
+    giftPropose((propose) => {
+      setNewDesc(propose.desc)
+      setNewImage(propose.Img)
+    })
+  }
+
+  const handleGiftForm = (evt) => {
     evt.preventDefault()
-    console.log("guardar")
-    const searchGift = (item) => item.desc === action.editData.desc
+    // const searchGift = (item) => item.desc === action.editData.desc
     if(newDesc!==''){
       const newItem = {desc:newDesc, Qty:newQty, Img:newImage, Owner:newOwner}
       if (action.action==='add') {
         if(!giftCollection.some((element)=>{return element.desc===newDesc})){
-          setGiftCollection([...giftCollection, newItem])
+          //setGiftCollection([...giftCollection, newItem])
+          giftPostItem(newItem, setGiftCollection)
           handleClose()
         }
       }
       if (action.action==='edit') {
         if(!giftCollection.some((element)=>{return element.desc===newDesc}) || newDesc === action.editData.desc){
-          const position = giftCollection.findIndex(searchGift)
-          // setGiftCollection([...giftCollection].splice(position,1,newItem))
-          const newGiftCollection = [...giftCollection]
-          newGiftCollection.splice(position,1,newItem) // OJO no se puede asignar porque devuelve arreglo de eliminados
-          setGiftCollection(newGiftCollection)
+          newItem['id'] = action.editData.id
+          // const position = giftCollection.findIndex(searchGift)
+          // const newGiftCollection = [...giftCollection]
+          // newGiftCollection.splice(position,1,newItem) // OJO no se puede asignar el resultado del splice porque devuelve un arreglo de eliminados
+          // setGiftCollection(newGiftCollection)
+          giftPutItem(newItem, setGiftCollection)
           handleClose()
         }
       }
@@ -48,7 +58,6 @@ export function GiftAdd({show, handleClose, giftCollection, setGiftCollection, a
     }
   },[action])
 
-
   const handleDescChg = (evt) => { setNewDesc(evt.target.value) }
   const handleImageChg = (evt) => { setNewImage(evt.target.value)}
   const handleQtyChg = (evt) => { setNewQty(evt.target.value)}
@@ -61,17 +70,22 @@ export function GiftAdd({show, handleClose, giftCollection, setGiftCollection, a
           <Modal.Title>{action.action==='edit'?'Editando ' + action.editData.desc:'Nuevo regalo'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <form onSubmit={handleGiftAdd}>
+            <form onSubmit={handleGiftForm}>
                 <div className='container-fluid'>
                     <div className='row'>
                         <div className='form-group'>
-                            <label htmlFor="modalDescripcion">Regalo</label>
-                            <input 
-                                id="modalDescripcion" 
-                                className='form-control' 
-                                onChange={handleDescChg} 
-                                value={newDesc}
-                            />
+                          <label htmlFor="modalDescripcion">Regalo</label>
+                          <InputGroup>
+                              <input 
+                                  id="modalDescripcion" 
+                                  className='form-control' 
+                                  onChange={handleDescChg} 
+                                  value={newDesc}
+                              />
+                              <Button variant="outline-primary" onClick={handleGiftProposal}>
+                                ¡ Sorprendeme !
+                              </Button>
+                          </InputGroup>
                         </div>
                     </div>
                     <div className='row'>
@@ -96,7 +110,7 @@ export function GiftAdd({show, handleClose, giftCollection, setGiftCollection, a
                                 />
                             </div>
                     </div>
-                    <div className='row '>
+                    <div className='row'>
                         <div className='col md-4'>
                             <div className='form-group'>
                                 <label htmlFor="modalCantidad">Cantidad</label>
@@ -115,11 +129,12 @@ export function GiftAdd({show, handleClose, giftCollection, setGiftCollection, a
                             
                         </div>
                     </div>
+                    <div className='row text-muted mt-3'>
+                      <div className='form-group'>
+                        {action.action==='edit'?`id:${action.editData.id}`:''}
+                      </div>
+                    </div>
                 </div>
-{/*                 <div className='form-group'>
-                    <button className='btn btn-primary mb-2'>Agregar</button>
-                </div>
- */}            
             </form>
 
         </Modal.Body>
@@ -127,7 +142,7 @@ export function GiftAdd({show, handleClose, giftCollection, setGiftCollection, a
           <Button variant="secondary" onClick={handleClose}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleGiftAdd}>
+          <Button variant="primary" onClick={handleGiftForm}>
             Guardar
           </Button>
         </Modal.Footer>

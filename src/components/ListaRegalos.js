@@ -5,7 +5,7 @@ export const ListaRegalos = ({regalos, handleDelete, handleEdit}) => {
     return <>
     <ul>
       {regalos.map(regalo => 
-        <li key={regalo.desc}>
+        <li key={regalo.id}>
           <div className="giftRow">
             <div className="giftItem">
                 <img src={regalo.Img} className='imageList' alt={regalo.name}/>
