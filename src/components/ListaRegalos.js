@@ -11,7 +11,7 @@ export const ListaRegalos = ({regalos, handleDelete, handleEdit}) => {
                 <img src={regalo.Img} className='imageList' alt={regalo.name}/>
                 <div>
                     <div>
-                        {regalo.desc} {regalo.Qty>1?"x"+regalo.Qty:""}
+                        {regalo.desc} {regalo.Qty>1?"("+regalo.Qty+")":""} {(regalo.PriceUnit||0)>0?" - " + (regalo.PriceUnit*regalo.Qty).toFixed(2):""}
                     </div>
                     <div className="listOwner">
                         {regalo.Owner}
@@ -30,5 +30,9 @@ export const ListaRegalos = ({regalos, handleDelete, handleEdit}) => {
         </li>
       )}    
     </ul>
+    <hr />
+    <p className="text-center font-weight-bold">
+      Total $ {regalos.reduce((total, item) => total + (item.PriceUnit === undefined?0:item.PriceUnit*item.Qty), 0).toFixed(2)}
+    </p>
     </>
   }
