@@ -9,6 +9,7 @@ export function GiftForm({show, handleClose, giftCollection, setGiftCollection, 
   const [newImage, setNewImage] = useState('')
   const [newQty, setNewQty] = useState(1)
   const [newOwner, setNewOwner] = useState('')
+  const [newPriceUnit, setNewPriceUnit] = useState(0)
 
   const handleGiftProposal = () => {
     giftPropose((propose) => {
@@ -21,7 +22,7 @@ export function GiftForm({show, handleClose, giftCollection, setGiftCollection, 
     evt.preventDefault()
     // const searchGift = (item) => item.desc === action.editData.desc
     if(newDesc!==''){
-      const newItem = {desc:newDesc, Qty:newQty, Img:newImage, Owner:newOwner}
+      const newItem = {desc:newDesc, Qty:newQty, Img:newImage, Owner:newOwner, PriceUnit:newPriceUnit}
       if (action.action==='add') {
         if(!giftCollection.some((element)=>{return element.desc===newDesc})){
           //setGiftCollection([...giftCollection, newItem])
@@ -49,19 +50,22 @@ export function GiftForm({show, handleClose, giftCollection, setGiftCollection, 
       setNewImage('')
       setNewQty(1)
       setNewOwner('')
+      setNewPriceUnit(0)
     } 
     if (action.action==='edit') {
       setNewDesc(action.editData.desc)
       setNewImage(action.editData.Img)
       setNewQty(action.editData.Qty)
       setNewOwner(action.editData.Owner || '')
-    }
+      setNewPriceUnit(action.editData.PriceUnit || 0)
+}
   },[action])
 
   const handleDescChg = (evt) => { setNewDesc(evt.target.value) }
   const handleImageChg = (evt) => { setNewImage(evt.target.value)}
   const handleQtyChg = (evt) => { setNewQty(evt.target.value)}
   const handleOwnerChg = (evt) => { setNewOwner(evt.target.value)}
+  const handlePriceUnitChg = (evt) => { setNewPriceUnit(evt.target.value)}
 
   return (
     <>
@@ -129,9 +133,33 @@ export function GiftForm({show, handleClose, giftCollection, setGiftCollection, 
                             
                         </div>
                     </div>
+                    <div className='row'>
+                        <div className='col md-4'>
+                            <div className='form-group'>
+                                <label htmlFor="modalPriceUnit">Precio Unitario</label>
+                                <input 
+                                    id="modalPriceUnit" 
+                                    className='form-control' 
+                                    onChange={handlePriceUnitChg} 
+                                    value={newPriceUnit}
+                                    type="number" 
+                                    min={1} 
+                                    step={0.1} 
+                                    />
+                                </div>
+                        </div>
+                        <div className='col md-8'>
+                            
+                        </div>
+                    </div>
+                    <div className='row mt-3'>
+                      <div className='form-group mark text-success'>
+                        {newPriceUnit>0?`Subtotal: ${(newPriceUnit * newQty).toFixed(2)}`:''}
+                      </div>
+                    </div>
                     <div className='row text-muted mt-3'>
                       <div className='form-group'>
-                        {action.action==='edit'?`id:${action.editData.id}`:''}
+                        {action.action==='edit'?`id: ${action.editData.id}`:''}
                       </div>
                     </div>
                 </div>
