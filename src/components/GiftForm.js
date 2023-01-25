@@ -23,7 +23,7 @@ export function GiftForm({show, handleClose, giftCollection, setGiftCollection, 
     // const searchGift = (item) => item.desc === action.editData.desc
     if(newDesc!==''){
       const newItem = {desc:newDesc, Qty:newQty, Img:newImage, Owner:newOwner, PriceUnit:newPriceUnit}
-      if (action.action==='add') {
+      if (action.action==='add' || action.action==='duplicate') {
         if(!giftCollection.some((element)=>{return element.desc===newDesc})){
           //setGiftCollection([...giftCollection, newItem])
           giftPostItem(newItem, setGiftCollection)
@@ -52,7 +52,7 @@ export function GiftForm({show, handleClose, giftCollection, setGiftCollection, 
       setNewOwner('')
       setNewPriceUnit(0)
     } 
-    if (action.action==='edit') {
+    if (action.action==='edit' || action.action==='duplicate') {
       setNewDesc(action.editData.desc)
       setNewImage(action.editData.Img)
       setNewQty(action.editData.Qty)

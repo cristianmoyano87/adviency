@@ -5,17 +5,14 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import { GiftForm } from './components/GiftForm';
 import { ListaRegalos } from "./components/ListaRegalos";
-import { giftGetAll, giftDeleteItem } from "./services/apiGifts";
+import { giftGetAll, giftDeleteItem, giftDeleteAll } from "./services/apiGifts";
 
 
 function App() {
 
-  // Carga inicial de regalos desde localStorage cuando se inicia el componente
-  const [regalos, setRegalos] = useState([]) // JSON.parse(localStorage.getItem('giftsList')) ||
+  const [regalos, setRegalos] = useState([])
 
   const handleDelete = (item) => {
-    // const result = regalos.filter(regalo => regalo !== item)
-    // setRegalos(result)
     giftDeleteItem(item.id, setRegalos)
   }
 
@@ -24,15 +21,16 @@ function App() {
     setAction({action:'edit', editData:item})
     handleShow()
   }
+  
+  const handleDuplicate = (item) => {
+    setAction({action:'duplicate', editData:item})
+    handleShow()
+  }
+  
   const handleAdd = () => {
     setAction({action:'add'})
     handleShow()
   }
-
-  // Actualiza localStorage cuando cambia "regalos"
-  useEffect(()=>{
-    localStorage.setItem('giftsList', JSON.stringify(regalos))
-  },[regalos])
 
   // Carga datos desde la API
   useEffect(()=>{
@@ -49,7 +47,8 @@ function App() {
   }
 
   const handleBorrarLista = () => {
-    setRegalos([])
+    giftDeleteAll(setRegalos)
+    // setRegalos([])
   }
 
   const [show, setShow] = useState(false);
@@ -62,7 +61,7 @@ function App() {
         <img className='fondo' src='cuento-arbol-navidad.jpg' alt='fondo'/>
         <p className="titulo">Regalos</p>
         <button className="giftForm" onClick={handleAdd}>Agregar Regalo</button>
-        <ListaRegalos regalos={regalos} handleDelete={handleDelete} handleEdit={handleEdit}/>
+        <ListaRegalos regalos={regalos} handleDelete={handleDelete} handleEdit={handleEdit} handleDuplicate={handleDuplicate}/>
         <BorrarLista/>
         <GiftForm show={show} handleClose={handleClose} giftCollection={regalos} setGiftCollection={setRegalos} action={action}/>
       </header>

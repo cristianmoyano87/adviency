@@ -32,6 +32,15 @@ export function giftDeleteItem(id, setGiftCollection) {
     .catch( error => console.log(error) )   
 }
 
+export function giftDeleteAll(setGiftCollection) {
+    fetch(`http://localhost:3003/deleteall`, {
+        method: "DELETE",
+    })
+    .then( response => console.log(response.status) )
+    .then( () => giftGetAll(setGiftCollection))
+    .catch( error => console.log(error) )   
+}
+
 export function giftPostItem(item, setGiftCollection) {
     fetch(`http://localhost:3003/new`, {
         method: "POST",
