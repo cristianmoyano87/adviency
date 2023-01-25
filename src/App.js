@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { GiftForm } from './components/GiftForm';
 import { ListaRegalos } from "./components/ListaRegalos";
 import { giftGetAll, giftDeleteItem, giftDeleteAll } from "./services/apiGifts";
+import { PurchaseList } from "./components/PurchaseList";
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
         <button className="giftForm" onClick={handleAdd}>Agregar Regalo</button>
         <ListaRegalos regalos={regalos} handleDelete={handleDelete} handleEdit={handleEdit} handleDuplicate={handleDuplicate}/>
         <BorrarLista/>
+        <PurchaseList regalos={regalos}/>
         <GiftForm show={show} handleClose={handleClose} giftCollection={regalos} setGiftCollection={setRegalos} action={action}/>
       </header>
     </div>
