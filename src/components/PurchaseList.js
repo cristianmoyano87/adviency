@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useReactToPrint } from 'react-to-print';
+import './PurchaseList.css'
 
 export function PurchaseList({regalos}) {
   const [show, setShow] = useState(false);
