@@ -20,7 +20,7 @@ export const Music = () => {
     <audio id="musica">
         <source src="jingle-bells-christmas-hip-hop-128137.mp3"/>
     </audio>
-    <Button variant="link fs-3 text-dark" onClick={operation}>{playing===true?<VolumeMuteFill/>:<VolumeUpFill/>}</Button>
+    <Button variant="link fs-3 text-danger" onClick={operation}>{playing===true?<VolumeMuteFill/>:<VolumeUpFill/>}</Button>
     </>
   )
 }

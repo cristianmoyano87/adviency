@@ -1,4 +1,4 @@
-import { Files, Trash3 } from "react-bootstrap-icons"
+import { Files, Trash3, Pencil } from "react-bootstrap-icons"
 
 export const ListaRegalos = ({regalos, handleDelete, handleEdit, handleDuplicate}) => {
     if(regalos.length===0) {
@@ -21,13 +21,9 @@ export const ListaRegalos = ({regalos, handleDelete, handleEdit, handleDuplicate
                 </div>
             </div>
             <div className="giftAction">
-                <button title="edit" onClick={() => handleEdit(regalo)}>
-                    <img alt="edit" src="edit24alfa.png"/>
-                </button>
+                <button title="edit" onClick={() => handleEdit(regalo)}><Pencil/></button>
                 <button title="duplicate" onClick={() => handleDuplicate(regalo)}><Files/></button>
-                <button title="delete" onClick={() => handleDelete(regalo)}>
-                    <Trash3/>
-                </button>
+                <button title="delete" onClick={() => handleDelete(regalo)}><Trash3/></button>
             </div>
           </div>
         </li>
