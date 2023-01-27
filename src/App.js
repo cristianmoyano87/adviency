@@ -3,10 +3,12 @@ import "bootstrap/dist/js/bootstrap.bundle";
 
 import './App.css';
 import { useEffect, useState } from 'react';
+import { Trash3 } from "react-bootstrap-icons"
 import { GiftForm } from './components/GiftForm';
 import { ListaRegalos } from "./components/ListaRegalos";
 import { giftGetAll, giftDeleteItem, giftDeleteAll } from "./services/apiGifts";
 import { PurchaseList } from "./components/PurchaseList";
+import { Music } from "./components/Music";
 
 
 function App() {
@@ -35,21 +37,17 @@ function App() {
 
   // Carga datos desde la API
   useEffect(()=>{
-    giftGetAll((giftsList)=>{
-      setRegalos(giftsList)
-    })
+    giftGetAll(setRegalos)
   }, [])
   
   const BorrarLista = () => {
     return <button className="borrarTodo" onClick={() => handleBorrarLista()}>
-      <img alt="trash" src="//ssl.gstatic.com/ui/v1/icons/mail/gm3/1x/delete_baseline_nv700_20dp.png"/>
-      Borrar todo
+      <Trash3/> Borrar todo
     </button>
   }
 
   const handleBorrarLista = () => {
     giftDeleteAll(setRegalos)
-    // setRegalos([])
   }
 
   const [show, setShow] = useState(false);
@@ -60,7 +58,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img className='fondo' src='cuento-arbol-navidad.jpg' alt='fondo'/>
-        <p className="titulo">Regalos</p>
+        <div className="d-flex justify-content-between">
+          <p className="titulo">Regalos</p>
+          <Music/>
+        </div>
         <button className="giftForm" onClick={handleAdd}>Agregar Regalo</button>
         <ListaRegalos regalos={regalos} handleDelete={handleDelete} handleEdit={handleEdit} handleDuplicate={handleDuplicate}/>
         <BorrarLista/>
