@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle";
-
+import Snowfall from "react-snowfall";
 import './App.css';
 import { useEffect, useState } from 'react';
 import { Trash3 } from "react-bootstrap-icons"
@@ -10,6 +10,14 @@ import { giftGetAll, giftDeleteItem, giftDeleteAll } from "./services/apiGifts";
 import { PurchaseList } from "./components/PurchaseList";
 import { Music } from "./components/Music";
 
+import snowLogo from "./snowflake.png"
+import snowLogo2 from "./snowflake2.png"
+const snowFlake = document.createElement('img', undefined)
+snowFlake.src = snowLogo
+const snowFlake2 = document.createElement('img', undefined)
+snowFlake2.src = snowLogo2
+
+const snowImages = [snowFlake, snowFlake2]
 
 function App() {
 
@@ -56,6 +64,13 @@ function App() {
 
   return (
     <div className="App">
+      <Snowfall
+        snowflakeCount={50} 
+        radius={[10, 20]}
+        speed={[0.2, 2.0]}
+        rotationSpeed={[-1, 1]}
+        images={snowImages}
+      />
       <header className="App-header">
         <img className='fondo' src='cuento-arbol-navidad.jpg' alt='fondo'/>
         <div className="d-flex justify-content-between">
