@@ -1,5 +1,5 @@
 export function giftPropose(SetState) {
-    fetch(`http://localhost:3003/gift-propose`)
+    fetch(`http://localhost:3003/propose`)
     .then( response => response.json() )
     .then( data => SetState(data) )
     .catch( error => console.log(error) )   
